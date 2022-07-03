@@ -1,8 +1,9 @@
-def wiggle_sequence(sequence):
-    print(sequence)
-    def null_remote(sequence):
+def wiggle_sequence(nums):
+    print(nums)
+
+    def null_remote(nums):
         new_sequence = []
-        for i in sequence:
+        for i in nums:
             try:
                 if float(i) == 0:
                     continue
@@ -33,22 +34,25 @@ def wiggle_sequence(sequence):
         max_count = 0
         current_count = 0
         for i in range(len(differences)):
-            if i == 0:
-                continue
+            current_sign = sign(differences[i])
+            try:
+                next_sign = sign(differences[i + 1])
+            except IndexError:
+                break
+            if current_sign != next_sign:
+                current_count += 1
+                if current_count > max_count:
+                    max_count = current_count
             else:
-                current_sign = sign(differences[i])
-                previous_sign = sign(differences[i - 1])
-                if current_sign != previous_sign:
-                    current_count += 1
-                    if current_count > max_count:
-                        max_count = current_count
-                else:
-                    current_count = 0
-        return max_count
+                continue
+        if len(differences) == 0:
+            return max_count+1
+        else:
+            return max_count + 2
 
-    return maximum_length_calculation(differences_create(null_remote(sequence)))
+    return maximum_length_calculation(null_remote(differences_create(nums)))
 
 
-test_value = [1,17,5,10,13,15,10,5,16,8]
+test_value = [3,3,3,2,5]
 
 print(wiggle_sequence(test_value))
